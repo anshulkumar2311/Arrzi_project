@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "893771359324",
+    "project_id": "arrzi-project",
+    "storage_bucket": "arrzi-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893771359324:android:1a9b64bfa529f99a60b299",
+        "android_client_info": {
+          "package_name": "com.example.arzi_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893771359324-o5nli0h7qmm7464rlgaq31n28pj85rbq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.arzi_pro",
+            "certificate_hash": "2954406c8258152dfa8642f7e34dde3d45dd243d"
+          }
+        },
+        {
+          "client_id": "893771359324-mso6jal8plnnru41ld0d97v6o70t7ubu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgGccpaoipimb04RFFlFm2creH3NlhID4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893771359324-mso6jal8plnnru41ld0d97v6o70t7ubu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
