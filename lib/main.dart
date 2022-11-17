@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   TextEditingController _name = TextEditingController();
   TextEditingController _phone = TextEditingController();
   TextEditingController _age = TextEditingController();
-
+  TextEditingController _date = TextEditingController();
   final items = ['HR','Finance','Marketing','HouseKeeping'];
   String? value;
   final picker = ImagePicker();
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       _name.text = "";
       _phone.text = "";
       _age.text = "";
+      _date.text = "";
     });
   }
   Future imagePicker() async{
@@ -66,13 +68,14 @@ class _MyAppState extends State<MyApp> {
     url =await ref.getDownloadURL();
 
     FirebaseFirestore.instance
-        .collection("arrzi")
+        .collection("zylu")
         .add({
       'name': _name.text,
       'phone': _phone.text,
       'age': _age.text,
       'department':value,
       'image': url,
+      'date' : _date.text,
     });
     print("User Added");
     Empty();
@@ -84,7 +87,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         backgroundColor: Colors.grey,
         appBar: AppBar(
-          title: Text("Arrzi", style: TextStyle(
+          title: Text("Zylu Bussiness", style: TextStyle(
             fontSize: 30
           ),),
           backgroundColor: Colors.black54,
@@ -93,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: [
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Column(
                 children: [
@@ -109,7 +112,7 @@ class _MyAppState extends State<MyApp> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 30.0,
+                          height: 20.0,
                         ),
                         textItem("Enter Name", _name),
                         SizedBox(
@@ -129,6 +132,59 @@ class _MyAppState extends State<MyApp> {
                         SizedBox(
                           height: 15.0,
                         ),
+                    Container(
+                      // padding: EdgeInsets.symmetric(vertical: 10),
+                      width: MediaQuery.of(context).size.width - 80,
+                      height: 55,
+                      child: TextField(
+                        controller: _date,
+                        //editing controller of this TextField
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.calendar_today, color: Colors.black,),
+                          labelText: "Date",
+                          labelStyle: TextStyle(
+                            fontSize: 17,
+                            color: Colors.blueGrey,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Colors.black,
+                              )),
+                        ),
+                        readOnly: true,
+                        //set it true, so that user will not able to edit text
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1950),
+                              //DateTime.now() - not to allow to choose before today.
+                              lastDate: DateTime(2100));
+
+                          if (pickedDate != null) {
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(pickedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
+                            setState(() {
+                              _date.text =
+                                  formattedDate; //set output date to TextField value.
+                            });
+                          } else {}
+                        },
+                      ),
+                    ),
                         Container(
                           margin: EdgeInsets.all(16),
                           padding: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
@@ -207,7 +263,7 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 0,
                         ),
                             SizedBox(
                               height: 30,

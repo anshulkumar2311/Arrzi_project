@@ -3,6 +3,7 @@ import 'package:arzi_pro/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({Key? key}) : super(key: key);
@@ -12,9 +13,14 @@ class Screen2 extends StatefulWidget {
 }
 
 class _Screen2State extends State<Screen2> {
+  DateTime dateToday =new DateTime.now();
   late String urlimg;
   late int id = 1001;
-  final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance.collection("arrzi").snapshots();
+  bool yes = false;
+  late String date;
+  late String trimdate;
+  late String trimdate2;
+  final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance.collection("zylu").snapshots();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +28,7 @@ class _Screen2State extends State<Screen2> {
       home: Scaffold(
         bottomNavigationBar: Row(
           children: [
-          SizedBox(width: 80,),
+          SizedBox(width: 140,),
         Container(
           width: 100,
           child: ElevatedButton(style: ElevatedButton.styleFrom(
@@ -51,7 +57,17 @@ class _Screen2State extends State<Screen2> {
               return ListView.builder(itemCount: snapshot.data?.docs.length,itemBuilder: (context,index){
                 Map<String,dynamic> document = snapshot.data?.docs[index].data() as Map<String, dynamic>;
                 urlimg = document["image"] == null ? "Error" :  document["image"];
-
+                date = document['date'];
+                trimdate = date.substring(0,4);
+                String date2 = dateToday.toString().substring(0,10);
+                trimdate2 = date2.substring(0,4);
+                int d1 = int.parse(trimdate);
+                int d2 = int.parse(trimdate2);
+                if(d2 - d1 >=5){
+                  yes = true;
+                }else{
+                  yes = false;
+                }
                 return Column(
                   // mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,9 +85,10 @@ class _Screen2State extends State<Screen2> {
                       width: MediaQuery.of(context).size.width,
                       child: InkWell(
                         onTap: (){
+                          print(date.toString());
                           setState(() {
-                            print("Hello");
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  Screen3(image: document['image'],age: document['age'],department: document['department'],name: document['name'],phone: document['phone'],),));
+                            // print(urlimg);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  Screen3(image: document['image'],yes: yes,age: document['age'],department: document['department'],name: document['name'],phone: document['phone'],),));
                           });
                         },
                         child: Row(
@@ -85,9 +102,7 @@ class _Screen2State extends State<Screen2> {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                     width: 4,
-                                    color: Theme
-                                        .of(context)
-                                        .scaffoldBackgroundColor,
+                                    color: yes ? Colors.green : Colors.white,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
@@ -103,7 +118,7 @@ class _Screen2State extends State<Screen2> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: urlimg==null ?const NetworkImage("https://st.depositphotos.com/1741875/1237/i/600/depositphotos_12376816-stock-photo-stack-of-old-books.jpg") : NetworkImage(urlimg),
-                                  )
+                                  ),
                               ),
                             ),
                             SizedBox(
@@ -124,15 +139,6 @@ class _Screen2State extends State<Screen2> {
                             SizedBox(
                               height: 12,
                             ),
-                            // Text(
-                            //   "Book_Space_Id- ${index+10001}",
-                            //   style: GoogleFonts.roboto(
-                            //     color: Colors.red,
-                            //     fontWeight: FontWeight.bold,
-                            //     fontSize: 24,
-                            //   ),
-                            // ),
-
                           ],
                         ),
                       ),

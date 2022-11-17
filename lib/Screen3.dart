@@ -3,12 +3,13 @@ import 'package:arzi_pro/screen2.dart';
 import 'package:flutter/material.dart';
 
 class Screen3 extends StatefulWidget {
-  Screen3({required this.name,required this.phone,required this.image,required this.age,required this.department});
+  Screen3({required this.name,required this.yes,required this.phone,required this.image,required this.age,required this.department});
   String age;
   String phone;
   String name;
   String image;
   String department;
+  bool yes = false;
   @override
   State<Screen3> createState() => _Screen3State();
 }
@@ -36,9 +37,7 @@ class _Screen3State extends State<Screen3> {
                 decoration: BoxDecoration(
                     border: Border.all(
                       width: 4,
-                      color: Theme
-                          .of(context)
-                          .scaffoldBackgroundColor,
+                      color: widget.yes ? Colors.green : Colors.white ,
                     ),
                     boxShadow: [
                       BoxShadow(
