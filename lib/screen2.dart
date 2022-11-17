@@ -18,6 +18,7 @@ class _Screen2State extends State<Screen2> {
   late int id = 1001;
   bool yes = false;
   late String date;
+  String a='';
   late String trimdate;
   late String trimdate2;
   final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance.collection("zylu").snapshots();
